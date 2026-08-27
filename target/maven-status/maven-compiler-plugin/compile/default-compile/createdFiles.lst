@@ -1,0 +1,9 @@
+Modelo\TarifaEnvio.class
+Modelo\GuiaEnvio.class
+Modelo\DetallePaquete.class
+Modelo\Destinatario.class
+Modelo\EnvioInternacional.class
+Controlador\ConexionBDD.class
+Modelo\Usuario.class
+Modelo\EnvioNacional.class
+Vista\Courier.class
