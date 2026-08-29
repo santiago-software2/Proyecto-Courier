@@ -55,6 +55,10 @@ public class Destinatario {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-    
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
     
 }

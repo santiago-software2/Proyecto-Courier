@@ -5,6 +5,8 @@
 package Vista;
 
 import Controlador.ConexionBDD;
+import Modelo.Administrador;
+import Modelo.Remitente;
 import Modelo.Usuario;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -136,11 +138,20 @@ public class InicioSesion extends javax.swing.JFrame {
 
             // 3. Validar si vino algún dato
             if (resultado.next()) {
-                Usuario u = new Usuario();
+                String rolUsuario = resultado.getString("rol");
+                Usuario u;
+
+                if (rolUsuario.equals("Administrador")) {
+                    u = new Administrador();
+                } else {
+                    u = new Remitente();
+                }
+
                 u.setId(resultado.getInt("id_usuario"));
                 u.setNombre(resultado.getString("nombre"));
                 u.setEmail(resultado.getString("email"));
-                u.setRol(resultado.getString("rol"));
+                u.setTelefono(resultado.getString("telefono"));
+                u.setRol(rolUsuario);
 
                 Usuario.usuarioActual = u;
 

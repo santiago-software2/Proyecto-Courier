@@ -4,7 +4,13 @@
  */
 package Vista;
 
+import Controlador.ConexionBDD;
+import Controlador.GuiaEnvioControlador;
+import Modelo.Destinatario;
+import Modelo.TarifaPeso;
 import Modelo.Usuario;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +25,12 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
         initComponents();
         txtRemitente.setText(Usuario.usuarioActual.getNombre());
         txtRemitente.setEditable(false);
+
+        txtTelefonoRemitente.setText(Usuario.usuarioActual.getTelefono());
+        txtTelefonoRemitente.setEditable(false);
+
+        cargarDestinatarios();
+        cargarTarifasPeso();
     }
 
     /**
@@ -38,42 +50,42 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
         lblDireccionOrigen = new javax.swing.JLabel();
         lblDestinatario = new javax.swing.JLabel();
         lblDetallePaquete = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtFecha = new javax.swing.JTextField();
+        txtIdGE = new javax.swing.JTextField();
         txtRemitente = new javax.swing.JTextField();
         txtDireccionOrigen = new javax.swing.JTextField();
         lblPeso = new javax.swing.JLabel();
-        lblProvincias = new javax.swing.JLabel();
         cmbPeso = new javax.swing.JComboBox<>();
-        cmbProvincias = new javax.swing.JComboBox<>();
         lblDireccionDestino = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtContactoDestinatario = new javax.swing.JTextField();
         lblLargo = new javax.swing.JLabel();
         lblAncho = new javax.swing.JLabel();
         lblAlto = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
+        txtLargo = new javax.swing.JTextField();
+        txtValorAsegurado = new javax.swing.JTextField();
+        txtAlto = new javax.swing.JTextField();
         lblContenidoDeclarado = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        txtContenidoDeclarado = new javax.swing.JTextField();
         lblValorAsegurado = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
         lblDatosRemitente = new javax.swing.JLabel();
         lblDatosDestinatario = new javax.swing.JLabel();
         lblTelefonoRemitente = new javax.swing.JLabel();
         lblContactoDestinatario = new javax.swing.JLabel();
         txtTelefonoRemitente = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
+        txtDireccionDestino = new javax.swing.JTextField();
         lblEstado = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         lblTiempoEntrega = new javax.swing.JLabel();
         lblTipoDeEnvio = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        txtTiempoEntrega = new javax.swing.JTextField();
         rbEnvioNacional = new javax.swing.JRadioButton();
         rbEnvioInternacional = new javax.swing.JRadioButton();
         lblCostoTotal = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        txtCostoTotal = new javax.swing.JTextField();
+        cmbNombresDestinatarios = new javax.swing.JComboBox<>();
+        txtAncho = new javax.swing.JTextField();
+        lblDetalleEnvio = new javax.swing.JLabel();
+        txtEstado = new javax.swing.JTextField();
+        btnCrearSolicitud = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,28 +103,21 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
 
         lblDetallePaquete.setText("DETALLE DEL PAQUETE");
 
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
+        txtDireccionOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDireccionOrigenActionPerformed(evt);
+            }
+        });
 
         lblPeso.setText("PESO:");
 
-        lblProvincias.setText("PROVINCIA:");
-
-        cmbPeso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPeso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbPesoActionPerformed(evt);
             }
         });
 
-        cmbProvincias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         lblDireccionDestino.setText("DIRECCION DE DESTINO:");
-
-        jTextField6.setText("jTextField6");
 
         lblLargo.setText("LARGO:");
 
@@ -120,24 +125,15 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
 
         lblAlto.setText("ALTO:");
 
-        jTextField7.setText("jTextField7");
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        txtLargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                txtLargoActionPerformed(evt);
             }
         });
 
-        jTextField8.setText("jTextField8");
-
-        jTextField9.setText("jTextField9");
-
         lblContenidoDeclarado.setText("CONTENIDO DECLARADO:");
 
-        jTextField10.setText("jTextField10");
-
         lblValorAsegurado.setText("VALOR ASEGURADO:");
-
-        jTextField11.setText("jTextField11");
 
         lblDatosRemitente.setText("DATOS DE REMITENTE");
 
@@ -147,220 +143,283 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
 
         lblContactoDestinatario.setText("CONTACTO:");
 
-        jTextField13.setText("jTextField13");
-
         lblEstado.setText("ESTADO:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblTiempoEntrega.setText("TIEMPO DE ENTREGA:");
 
         lblTipoDeEnvio.setText("TIPO DE ENVIO:");
 
-        jTextField14.setText("jTextField14");
-
+        buttonGroup1.add(rbEnvioNacional);
         rbEnvioNacional.setText("NACIONAL");
+        rbEnvioNacional.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbEnvioNacionalActionPerformed(evt);
+            }
+        });
 
+        buttonGroup1.add(rbEnvioInternacional);
         rbEnvioInternacional.setText("INTERNACIONAL");
+        rbEnvioInternacional.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbEnvioInternacionalActionPerformed(evt);
+            }
+        });
 
         lblCostoTotal.setText("COSTO TOTAL:");
 
-        jTextField15.setText("jTextField15");
+        cmbNombresDestinatarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbNombresDestinatariosActionPerformed(evt);
+            }
+        });
+
+        lblDetalleEnvio.setText("DETALLE DEL ENVIO");
+
+        btnCrearSolicitud.setText("CREAR SOLICITUD");
+        btnCrearSolicitud.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearSolicitudActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(268, 268, 268)
-                .addComponent(lblGuiaEnvio)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(lblDatosRemitente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblDatosDestinatario)
-                .addGap(81, 81, 81))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblDetallePaquete)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(117, 117, 117)
+                        .addComponent(lblDatosRemitente))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblRemitente)
-                            .addComponent(lblIdGE)
-                            .addComponent(lblDireccionOrigen)
-                            .addComponent(lblTelefonoRemitente))
-                        .addGap(29, 29, 29)
+                        .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtTelefonoRemitente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                                .addComponent(lblContactoDestinatario)
-                                .addGap(202, 202, 202))
+                                .addComponent(lblRemitente)
+                                .addGap(83, 83, 83)
+                                .addComponent(txtRemitente, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtRemitente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDireccionOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblDestinatario)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblFecha)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblDireccionDestino)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(152, 152, 152)
-                                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(38, 38, 38))))))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPeso)
-                    .addComponent(lblLargo)
-                    .addComponent(lblAlto)
-                    .addComponent(lblValorAsegurado)
-                    .addComponent(lblTiempoEntrega)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(lblCostoTotal)))
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblTelefonoRemitente)
+                                        .addGap(63, 63, 63))
+                                    .addComponent(lblDireccionOrigen, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblProvincias)
-                                            .addComponent(lblAncho))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cmbProvincias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblContenidoDeclarado)
-                                            .addComponent(lblEstado))
                                         .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                        .addComponent(txtTelefonoRemitente, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtDireccionOrigen))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(lblIdGE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtIdGE, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblDestinatario)
+                                        .addGap(82, 82, 82))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lblDireccionDestino)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(txtDireccionDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(66, 66, 66)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(cmbNombresDestinatarios, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblContactoDestinatario)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtContactoDestinatario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(66, 66, 66)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblDatosDestinatario)
+                                .addGap(119, 119, 119))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblEstado)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblTipoDeEnvio)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(rbEnvioNacional)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(rbEnvioInternacional))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblTiempoEntrega)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtTiempoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(31, 31, 31)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblCostoTotal)
+                                        .addGap(34, 34, 34)
+                                        .addComponent(txtCostoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(66, 66, 66))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addComponent(lblFecha)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(lblDetallePaquete)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblDetalleEnvio)
+                .addGap(183, 183, 183))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(lblTipoDeEnvio)
+                                .addGap(112, 112, 112)
+                                .addComponent(cmbPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(14, 14, 14)
+                                        .addComponent(lblAlto))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(63, 63, 63)
+                                        .addComponent(txtAlto, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(53, 53, 53)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblPeso)
+                                        .addComponent(lblLargo))
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtLargo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAncho)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(63, 63, 63)
+                                        .addComponent(txtAncho, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblContenidoDeclarado)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(19, 19, 19)
+                                        .addComponent(lblValorAsegurado)))
                                 .addGap(18, 18, 18)
-                                .addComponent(rbEnvioNacional)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbEnvioInternacional)))))
-                .addContainerGap())
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtValorAsegurado)
+                                    .addComponent(txtContenidoDeclarado, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(337, 337, 337)
+                        .addComponent(lblGuiaEnvio)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCrearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(264, 264, 264))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
+                .addComponent(lblGuiaEnvio)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblGuiaEnvio)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFecha)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblIdGE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblDatosRemitente)
-                            .addComponent(lblDatosDestinatario))
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblRemitente)
-                            .addComponent(txtRemitente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblDireccionOrigen)
-                            .addComponent(txtDireccionOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblDestinatario)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblDireccionDestino)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTelefonoRemitente)
-                    .addComponent(lblContactoDestinatario)
-                    .addComponent(txtTelefonoRemitente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(lblDetallePaquete)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPeso)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmbPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblProvincias)
-                        .addComponent(cmbProvincias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblLargo)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblAlto))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblAncho)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtIdGE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblIdGE))
+                                .addGap(18, 18, 18)
+                                .addComponent(lblDatosRemitente)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblRemitente)
+                                    .addComponent(txtRemitente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblTelefonoRemitente)
+                                    .addComponent(txtTelefonoRemitente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtDireccionOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblDireccionOrigen))
+                                .addGap(33, 33, 33)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblDetallePaquete)
+                                    .addComponent(lblDetalleEnvio)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFecha)
+                                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(lblDatosDestinatario)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblDestinatario)
+                                    .addComponent(cmbNombresDestinatarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblContactoDestinatario)
+                                    .addComponent(txtContactoDestinatario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblDireccionDestino)
+                                    .addComponent(txtDireccionDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblContenidoDeclarado)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblValorAsegurado)
-                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblEstado)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTiempoEntrega)
-                    .addComponent(lblTipoDeEnvio)
-                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbEnvioNacional)
-                    .addComponent(rbEnvioInternacional))
+                            .addComponent(lblPeso)
+                            .addComponent(cmbPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblLargo)
+                            .addComponent(txtLargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtAlto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAlto)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTipoDeEnvio)
+                            .addComponent(rbEnvioNacional)
+                            .addComponent(rbEnvioInternacional))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTiempoEntrega)
+                            .addComponent(txtTiempoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblEstado)
+                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCostoTotal)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(lblAncho)
+                    .addComponent(txtAncho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblContenidoDeclarado)
+                            .addComponent(txtContenidoDeclarado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblValorAsegurado)
+                            .addComponent(txtValorAsegurado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCostoTotal)
+                            .addComponent(txtCostoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(54, 54, 54)
+                        .addComponent(btnCrearSolicitud)
+                        .addGap(80, 80, 80))))
         );
 
         pack();
@@ -368,15 +427,112 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
 
     private void cmbPesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPesoActionPerformed
         // TODO add your handling code here:
+        calcularCostoTotal();
     }//GEN-LAST:event_cmbPesoActionPerformed
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void txtLargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLargoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_txtLargoActionPerformed
+
+    private void txtDireccionOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionOrigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDireccionOrigenActionPerformed
+
+    private void cmbNombresDestinatariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNombresDestinatariosActionPerformed
+        // TODO add your handling code here:
+        Destinatario seleccionado = (Destinatario) cmbNombresDestinatarios.getSelectedItem();
+
+        if (seleccionado != null) {
+            txtContactoDestinatario.setText(seleccionado.getContacto());
+            txtDireccionDestino.setText(seleccionado.getDireccion());
+        }
+    }//GEN-LAST:event_cmbNombresDestinatariosActionPerformed
+
+    private void rbEnvioNacionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEnvioNacionalActionPerformed
+        // TODO add your handling code here:
+        calcularCostoTotal();
+    }//GEN-LAST:event_rbEnvioNacionalActionPerformed
+
+    private void rbEnvioInternacionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEnvioInternacionalActionPerformed
+        // TODO add your handling code here:
+        calcularCostoTotal();
+    }//GEN-LAST:event_rbEnvioInternacionalActionPerformed
+
+    private void btnCrearSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearSolicitudActionPerformed
+        // TODO add your handling code here:
+        Destinatario destinatarioSeleccionado = (Destinatario) cmbNombresDestinatarios.getSelectedItem();
+
+        if (destinatarioSeleccionado == null) {
+            JOptionPane.showMessageDialog(null, "Seleccione un destinatario");
+            return;
+        }
+
+        String tipoEnvio = rbEnvioInternacional.isSelected() ? "Internacional" : "Nacional";
+
+        double peso = Double.parseDouble(txtLargo.getText()); // ajustar según tus campos
+        double largo = Double.parseDouble(txtLargo.getText());
+        double ancho = Double.parseDouble(txtAncho.getText());
+        double alto = Double.parseDouble(txtAlto.getText());
+        double valorAsegurado = Double.parseDouble(txtValorAsegurado.getText());
+        double costoTotal = Double.parseDouble(txtCostoTotal.getText());
+
+        GuiaEnvioControlador controlador = new GuiaEnvioControlador();
+        boolean exito = controlador.crearGuiaEnvio(
+                Usuario.usuarioActual.getIdUsuario(),
+                destinatarioSeleccionado.getIdDestinatario(),
+                txtDireccionOrigen.getText(),
+                costoTotal,
+                txtTiempoEntrega.getText(),
+                tipoEnvio,
+                peso, largo, ancho, alto,
+                txtContenidoDeclarado.getText(),
+                valorAsegurado
+        );
+
+        if (exito) {
+            JOptionPane.showMessageDialog(null, "Guía de envío creada correctamente");
+        }
+
+    }//GEN-LAST:event_btnCrearSolicitudActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    private void cargarDestinatarios() {
+        GuiaEnvioControlador controlador = new GuiaEnvioControlador();
+        ArrayList<Destinatario> lista = controlador.listarDestinatarios();
+
+        for (Destinatario d : lista) {
+            cmbNombresDestinatarios.addItem(d);
+        }
+    }
+
+    private void cargarTarifasPeso() {
+        GuiaEnvioControlador controlador = new GuiaEnvioControlador();
+        ArrayList<TarifaPeso> lista = controlador.listarTarifasPeso();
+
+        for (TarifaPeso t : lista) {
+            cmbPeso.addItem(t);
+        }
+    }
+
+    private void calcularCostoTotal() {
+        TarifaPeso pesoSeleccionado = (TarifaPeso) cmbPeso.getSelectedItem();
+
+        if (pesoSeleccionado != null) {
+            double costo = pesoSeleccionado.getPrecioKg();
+
+            if (rbEnvioInternacional.isSelected()) {
+                costo = costo + 15.00; // arancel fijo para envío internacional
+                txtTiempoEntrega.setText("7 a 10 días hábiles");
+            } else if (rbEnvioNacional.isSelected()) {
+                txtTiempoEntrega.setText("2 a 3 días hábiles");
+            }
+
+            txtCostoTotal.setText(String.valueOf(costo));
+        }
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -410,22 +566,10 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrearSolicitud;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cmbPeso;
-    private javax.swing.JComboBox<String> cmbProvincias;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JComboBox<Destinatario> cmbNombresDestinatarios;
+    private javax.swing.JComboBox<TarifaPeso> cmbPeso;
     private javax.swing.JLabel lblAlto;
     private javax.swing.JLabel lblAncho;
     private javax.swing.JLabel lblContactoDestinatario;
@@ -434,6 +578,7 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
     private javax.swing.JLabel lblDatosDestinatario;
     private javax.swing.JLabel lblDatosRemitente;
     private javax.swing.JLabel lblDestinatario;
+    private javax.swing.JLabel lblDetalleEnvio;
     private javax.swing.JLabel lblDetallePaquete;
     private javax.swing.JLabel lblDireccionDestino;
     private javax.swing.JLabel lblDireccionOrigen;
@@ -443,7 +588,6 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
     private javax.swing.JLabel lblIdGE;
     private javax.swing.JLabel lblLargo;
     private javax.swing.JLabel lblPeso;
-    private javax.swing.JLabel lblProvincias;
     private javax.swing.JLabel lblRemitente;
     private javax.swing.JLabel lblTelefonoRemitente;
     private javax.swing.JLabel lblTiempoEntrega;
@@ -451,8 +595,20 @@ public class GuiaEnvioVista extends javax.swing.JFrame {
     private javax.swing.JLabel lblValorAsegurado;
     private javax.swing.JRadioButton rbEnvioInternacional;
     private javax.swing.JRadioButton rbEnvioNacional;
+    private javax.swing.JTextField txtAlto;
+    private javax.swing.JTextField txtAncho;
+    private javax.swing.JTextField txtContactoDestinatario;
+    private javax.swing.JTextField txtContenidoDeclarado;
+    private javax.swing.JTextField txtCostoTotal;
+    private javax.swing.JTextField txtDireccionDestino;
     private javax.swing.JTextField txtDireccionOrigen;
+    private javax.swing.JTextField txtEstado;
+    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtIdGE;
+    private javax.swing.JTextField txtLargo;
     private javax.swing.JTextField txtRemitente;
     private javax.swing.JTextField txtTelefonoRemitente;
+    private javax.swing.JTextField txtTiempoEntrega;
+    private javax.swing.JTextField txtValorAsegurado;
     // End of variables declaration//GEN-END:variables
 }
