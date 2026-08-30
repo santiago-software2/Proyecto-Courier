@@ -5,6 +5,7 @@
 package Vista;
 
 import Controlador.ConexionBDD;
+import Controlador.InicioSesionControlador;
 import Modelo.Administrador;
 import Modelo.Remitente;
 import Modelo.Usuario;
@@ -123,52 +124,23 @@ public class InicioSesion extends javax.swing.JFrame {
         String usuario = txtUsuario.getText();
         String clave = new String(pswContraseña.getPassword());
 
-        String sentenciaSQL = "{call sp_inicio_sesion(?, ?)}";
+        InicioSesionControlador controlador = new InicioSesionControlador();
+        Usuario u = controlador.iniciarSesion(usuario, clave);
 
-        // USO DE TRY-WITH-RESOURCES:
-        // El CallableStatement se cerrará automáticamente al finalizar la ejecución.
-        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
+        if (u != null) {
+            Usuario.usuarioActual = u;
 
-            // 1. Mapeo de parámetros de entrada (IN)
-            ejecutar.setString(1, usuario);
-            ejecutar.setString(2, clave);
-
-            // 2. Ejecutar el Stored Procedure y obtener resultado
-            ResultSet resultado = ejecutar.executeQuery();
-
-            // 3. Validar si vino algún dato
-            if (resultado.next()) {
-                String rolUsuario = resultado.getString("rol");
-                Usuario u;
-
-                if (rolUsuario.equals("Administrador")) {
-                    u = new Administrador();
-                } else {
-                    u = new Remitente();
-                }
-
-                u.setId(resultado.getInt("id_usuario"));
-                u.setNombre(resultado.getString("nombre"));
-                u.setEmail(resultado.getString("email"));
-                u.setTelefono(resultado.getString("telefono"));
-                u.setRol(rolUsuario);
-
-                Usuario.usuarioActual = u;
-
-                if (u.getRol().equals("Administrador")) {
-                    new UsuarioVista().setVisible(true);
-                } else if (u.getRol().equals("Remitente")) {
-                    new GuiaEnvioVista().setVisible(true);
-                }
-
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+            if (u.getRol().equals("Administrador")) {
+                new MenuAdministrador().setVisible(true);
+            } else if (u.getRol().equals("Remitente")) {
+                new MenuRemitente().setVisible(true);
             }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Datos incorrectos");
         }
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

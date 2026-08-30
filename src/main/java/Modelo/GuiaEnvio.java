@@ -13,7 +13,6 @@ import java.util.Date;
 public class GuiaEnvio {
     private int idGe;
     private int idRemitente;
-    private Integer idRecolector;
     private int idDestinatario;
     private String direccionOrigen;
     private Date fechaDespacho;
@@ -25,10 +24,9 @@ public class GuiaEnvio {
     public GuiaEnvio() {
     }
 
-    public GuiaEnvio(int idGe, int idRemitente, Integer idRecolector, int idDestinatario, String direccionOrigen, Date fechaDespacho, double costoTotal, String estado, String tiempoEntrega, String tipoEnvio) {
+    public GuiaEnvio(int idGe, int idRemitente, int idDestinatario, String direccionOrigen, Date fechaDespacho, double costoTotal, String estado, String tiempoEntrega, String tipoEnvio) {
         this.idGe = idGe;
         this.idRemitente = idRemitente;
-        this.idRecolector = idRecolector;
         this.idDestinatario = idDestinatario;
         this.direccionOrigen = direccionOrigen;
         this.fechaDespacho = fechaDespacho;
@@ -44,10 +42,6 @@ public class GuiaEnvio {
 
     public int getIdRemitente() {
         return idRemitente;
-    }
-
-    public Integer getIdRecolector() {
-        return idRecolector;
     }
 
     public int getIdDestinatario() {
@@ -85,10 +79,6 @@ public class GuiaEnvio {
 
     public void setIdRemitente(int idRemitente) {
         this.idRemitente = idRemitente;
-    }
-
-    public void setIdRecolector(Integer idRecolector) {
-        this.idRecolector = idRecolector;
     }
 
     public void setIdDestinatario(int idDestinatario) {
