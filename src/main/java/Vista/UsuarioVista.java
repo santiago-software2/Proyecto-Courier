@@ -23,6 +23,7 @@ public class UsuarioVista extends javax.swing.JFrame {
 
     public UsuarioVista() {
         initComponents();
+        tblUsuarios.setDefaultEditor(Object.class, null);
         this.modelo();
     }
 
@@ -77,9 +78,14 @@ public class UsuarioVista extends javax.swing.JFrame {
 
         lblRol.setText("ROL:");
 
-        cmbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Remitente", "Recolector" }));
+        cmbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Remitente" }));
 
         btnCrear.setText("CREAR");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
         btnMostrar.setText("MOSTRAR");
 
@@ -102,7 +108,15 @@ public class UsuarioVista extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblUsuarios);
 
         btnVolver.setText("VOLVER");
@@ -224,6 +238,10 @@ public class UsuarioVista extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -331,6 +349,14 @@ public class UsuarioVista extends javax.swing.JFrame {
         return modelo;
     }
 
+    public void limpiarCampos() {
+        txtNombres.setText("");
+        txtEmail.setText("");
+        txtTelefono.setText("");
+        txtUsuario.setText("");
+        txtContraseña.setText("");
+        cmbRol.setSelectedIndex(0);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;

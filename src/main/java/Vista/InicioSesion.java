@@ -137,7 +137,7 @@ public class InicioSesion extends javax.swing.JFrame {
             }
 
             this.dispose();
-        } else {
+        } else if (!controlador.isInhabilitado()) {
             JOptionPane.showMessageDialog(null, "Datos incorrectos");
         }
 

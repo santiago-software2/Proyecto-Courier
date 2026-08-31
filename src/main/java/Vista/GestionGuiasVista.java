@@ -24,6 +24,7 @@ public class GestionGuiasVista extends javax.swing.JFrame {
 
     public GestionGuiasVista() {
         initComponents();
+        tblGuiasEnvio.setDefaultEditor(Object.class, null);
         this.modelo();
     }
 
@@ -76,7 +77,15 @@ public class GestionGuiasVista extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblGuiasEnvio);
 
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Asignado", "En Recolección", "En Tránsito", "Entregado", "Cancelado" }));

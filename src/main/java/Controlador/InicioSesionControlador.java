@@ -28,7 +28,7 @@ public class InicioSesionControlador {
     PreparedStatement ejecutar;
     //OBTENER RESULTADOS DE LA CONSULTA
     ResultSet resultado;
-    
+
     public Usuario iniciarSesion(String usuario, String clave) {
         String sentenciaSQL = "{call sp_inicio_sesion(?, ?)}";
 
@@ -41,6 +41,15 @@ public class InicioSesionControlador {
             ResultSet resultado = ejecutar.executeQuery();
 
             if (resultado.next()) {
+
+                String estado = resultado.getString("estado");
+
+                if (estado.equals("Inhabilitado")) {
+                    inhabilitado = true;
+                    JOptionPane.showMessageDialog(null, "Usuario inhabilitado. Contacte al administrador.");
+                    return null;
+                }
+
                 String rolUsuario = resultado.getString("rol");
                 Usuario u;
 
@@ -65,5 +74,11 @@ public class InicioSesionControlador {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
             return null;
         }
+    }
+
+    private boolean inhabilitado = false;
+
+    public boolean isInhabilitado() {
+        return inhabilitado;
     }
 }

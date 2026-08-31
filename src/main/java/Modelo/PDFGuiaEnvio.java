@@ -25,7 +25,8 @@ public class PDFGuiaEnvio implements Exportable {
 
             documento.add(new Paragraph("=== GUIA DE ENVIO ==="));
             documento.add(new Paragraph("ID: " + guia.getIdGe()));
-            documento.add(new Paragraph("Fecha: " + guia.getFechaDespacho()));
+            java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            documento.add(new Paragraph("Fecha: " + formatoFecha.format(guia.getFechaDespacho())));
             documento.add(new Paragraph("Direccion de origen: " + guia.getDireccionOrigen()));
             documento.add(new Paragraph("Tipo de envio: " + guia.getTipoEnvio()));
             documento.add(new Paragraph("Tiempo de entrega: " + guia.getTiempoEntrega()));

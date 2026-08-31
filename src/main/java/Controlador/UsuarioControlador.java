@@ -63,10 +63,7 @@ public class UsuarioControlador {
 
             if (idGenerado > -1) {
                 cargarDatosTabla();
-//                Object[] fila = {cont, umodelo.getNombre(), umodelo.getEmail(), umodelo.getTelefono(),
-//                    umodelo.getUsername(), contraseña, rol, "Activo"};
-//                uvista.getModelo().addRow(fila);
-//                cont++;
+                uvista.limpiarCampos();
             }
 
         } else {
@@ -111,7 +108,9 @@ public class UsuarioControlador {
             boolean actualizado = umodelo.actualizarUsuario();
 
             if (actualizado) {
-                cargarDatosTabla(); // recarga la tabla con los datos ya actualizados
+                cargarDatosTabla();
+                uvista.limpiarCampos();
+                uvista.getTblUsuarios().clearSelection();
             }
         } else {
             System.out.println("Por favor complete todos los campos.");
@@ -132,7 +131,8 @@ public class UsuarioControlador {
         boolean inhabilitado = umodelo.inhabilitarUsuario();
 
         if (inhabilitado) {
-            cargarDatosTabla(); // recarga la tabla reflejando el nuevo estado
+            cargarDatosTabla();
+            uvista.getTblUsuarios().clearSelection();
         }
     }
 

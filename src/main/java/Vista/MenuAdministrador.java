@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.UsuarioControlador;
 import Modelo.Usuario;
 
 /**
@@ -97,7 +98,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
 
     private void btnGestionarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarUsuariosActionPerformed
         // TODO add your handling code here:
-        new UsuarioVista().setVisible(true);
+        Usuario usumodelo = new Usuario();
+        UsuarioVista uvista = new UsuarioVista();
+        UsuarioControlador usucontrolador = new UsuarioControlador(usumodelo, uvista);
+        usucontrolador.iniciar();
         this.dispose();
     }//GEN-LAST:event_btnGestionarUsuariosActionPerformed
 
