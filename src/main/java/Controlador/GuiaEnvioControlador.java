@@ -274,9 +274,9 @@ public class GuiaEnvioControlador {
         return lista;
     }
 
-    public void generarReportePDF(ArrayList<Object[]> datos, JFreeChart grafico, String ruta) {
+    public void generarReportePDF(ArrayList<Object[]> datos, JFreeChart grafico, String nombreRemitente, String ruta) {
         ReportePDF pdf = new ReportePDF();
-        pdf.generarPDF(datos, grafico, ruta);
+        pdf.generarPDF(datos, grafico, nombreRemitente, ruta);
     }
 
 }

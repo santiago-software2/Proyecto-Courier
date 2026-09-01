@@ -23,7 +23,7 @@ import org.jfree.chart.JFreeChart;
  */
 public class ReportePDF {
 
-    public void generarPDF(ArrayList<Object[]> datos, JFreeChart grafico, String rutaDestino) {
+    public void generarPDF(ArrayList<Object[]> datos, JFreeChart grafico, String nombreRemitente, String rutaDestino) {
         Document documento = new Document();
 
         try {
@@ -31,6 +31,7 @@ public class ReportePDF {
             documento.open();
 
             documento.add(new Paragraph("=== REPORTE DE ENVIOS ==="));
+            documento.add(new Paragraph("Remitente: " + nombreRemitente));
             documento.add(new Paragraph(" "));
 
             // Tabla con los datos

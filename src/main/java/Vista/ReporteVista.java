@@ -235,7 +235,8 @@ public class ReporteVista extends javax.swing.JFrame {
             String ruta = selector.getSelectedFile().getAbsolutePath();
 
             GuiaEnvioControlador controlador = new GuiaEnvioControlador();
-            controlador.generarReportePDF(listaActual, graficoActual, ruta);
+            String nombreRemitente = (String) cmbRemitente.getSelectedItem();
+            controlador.generarReportePDF(listaActual, graficoActual, nombreRemitente, ruta);
 
             JOptionPane.showMessageDialog(null, "Reporte PDF generado correctamente");
         }
