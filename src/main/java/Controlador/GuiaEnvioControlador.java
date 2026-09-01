@@ -8,13 +8,17 @@ import Modelo.Destinatario;
 import Modelo.Exportable;
 import Modelo.GuiaEnvio;
 import Modelo.PDFGuiaEnvio;
+import Modelo.Remitente;
+import Modelo.ReportePDF;
 import Modelo.TarifaPeso;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import org.jfree.chart.JFreeChart;
 
 /**
  *
@@ -212,4 +216,67 @@ public class GuiaEnvioControlador {
 
         return lista;
     }
+
+    public ArrayList<Object[]> obtenerDatosReporteSP(String fechaInicio, String fechaFin, int idRemitente, String tipoEnvio) {
+        ArrayList<Object[]> lista = new ArrayList<>();
+        String sentenciaSQL = "{call sp_reportes_envios(?, ?, ?, ?)}";
+
+        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
+
+            ejecutar.setString(1, fechaInicio);
+            ejecutar.setString(2, fechaFin);
+
+            if (idRemitente == 0) {
+                ejecutar.setNull(3, java.sql.Types.INTEGER);
+            } else {
+                ejecutar.setInt(3, idRemitente);
+            }
+
+            // 2. Manejo de tipoEnvio ('Todos' significa sin filtro de tipo)
+            if (tipoEnvio == null || tipoEnvio.equals("Todos") || tipoEnvio.trim().isEmpty()) {
+                ejecutar.setNull(4, java.sql.Types.VARCHAR);
+            } else {
+                ejecutar.setString(4, tipoEnvio);
+            }
+
+            ResultSet resultado = ejecutar.executeQuery();
+
+            while (resultado.next()) {
+                Object[] fila = {
+                    resultado.getString("tipo_envio"),
+                    resultado.getInt("cantidad")
+                };
+                lista.add(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+
+        return lista;
+    }
+
+    public ArrayList<Object[]> listarRemitentes() {
+        ArrayList<Object[]> lista = new ArrayList<>();
+        String sentenciaSQL = "{call sp_mostrar_remitentes()}";
+        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
+            ResultSet resultado = ejecutar.executeQuery();
+            while (resultado.next()) {
+                Object[] fila = {
+                    resultado.getInt("id_usuario"),
+                    resultado.getString("nombre")
+                };
+                lista.add(fila);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+        return lista;
+    }
+
+    public void generarReportePDF(ArrayList<Object[]> datos, JFreeChart grafico, String ruta) {
+        ReportePDF pdf = new ReportePDF();
+        pdf.generarPDF(datos, grafico, ruta);
+    }
+
 }

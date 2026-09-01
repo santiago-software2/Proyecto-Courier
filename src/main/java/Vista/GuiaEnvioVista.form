@@ -124,38 +124,6 @@
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="112" pref="112" max="-2" attributes="0"/>
-                              <Component id="cmbPeso" min="-2" pref="102" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                      <Component id="lblAlto" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                                      <Component id="txtAlto" min="-2" pref="102" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="lblPeso" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblLargo" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="txtLargo" min="-2" pref="102" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="lblAncho" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                                      <Component id="txtAncho" min="-2" pref="102" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lblContenidoDeclarado" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
@@ -167,6 +135,33 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="txtValorAsegurado" max="32767" attributes="0"/>
                                   <Component id="txtContenidoDeclarado" min="-2" pref="102" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblPeso" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="cmbPeso" min="-2" pref="102" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblAncho" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="txtAncho" min="-2" pref="102" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="lblAlto" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="txtAlto" min="-2" pref="102" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="lblLargo" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="txtLargo" min="-2" pref="102" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -416,17 +411,17 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblLargo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="LARGO:"/>
+        <Property name="text" type="java.lang.String" value="LARGO (cm):"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblAncho">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ANCHO:"/>
+        <Property name="text" type="java.lang.String" value="ANCHO (cm):"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblAlto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ALTO:"/>
+        <Property name="text" type="java.lang.String" value="ALTO (cm):"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtLargo">
